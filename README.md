@@ -5,7 +5,7 @@ This container should be in a vnet and subnet, be accessible by a public ip on p
 
 ## Diagram
 
-[Azure Diagram](Assignment2Diagram.jpg)
+![Azure Diagram](Assignment2Diagram.jpg)
 
 ## Creating the docker image
 
