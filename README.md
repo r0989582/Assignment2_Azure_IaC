@@ -37,6 +37,9 @@ docker push acrrkcrudapp.azurecr.io/mycrudapp:latest
 ```
 az deployment group create --resource-group RkCruddGroup --template-file deploy.bicep --parameters deployAcrOnly=false
 ```
+
+The last command is for deleting the deployment when the demonstration is finished:
+
 ```
 az group delete --name RkCruddGroup --yes --no-wait
 ```
