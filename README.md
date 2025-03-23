@@ -9,7 +9,7 @@ This container should be in a vnet and subnet, be accessible by a public ip on p
 
 ## Creating the docker image
 
-To create the docker image you will first need to pull the following repository: https://github.com/gurkanakdeniz/example-flask-crud
+To create the docker image you will first need to pull the following repository: https://github.com/gurkanakdeniz/example-flask-crud<br>
 Then place the dockerfile in this repository into the crud app repository and execute the following command:
 
 ```
