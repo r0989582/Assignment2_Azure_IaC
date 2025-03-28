@@ -160,9 +160,18 @@ resource loadbalancer_backendPool 'Microsoft.Network/loadBalancers/backendAddres
   properties: {
     loadBalancerBackendAddresses: [
       {
-        name: 'b38e1c02-6871-4140-9756-56e2dd0b289a'
+        name: 'backendAdress1'
         properties: {
           ipAddress: '10.0.1.4'
+          virtualNetwork: {
+            id: vnet.id
+          }
+        }
+      }
+      {
+        name: 'backendAdress2'
+        properties: {
+          ipAddress: '10.0.1.5'
           virtualNetwork: {
             id: vnet.id
           }
@@ -196,6 +205,66 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
         }
       }
     ]
+    ipAddress: {
+      ports: [
+        {
+          protocol: 'TCP'
+          port: 80
+        }
+      ]
+      ip: '10.0.1.4'
+      type: 'Private'
+    }
+    osType: 'Linux'
+    subnetIds: [
+      {
+        id: vnet.properties.subnets[0].id
+      }
+    ]
+    imageRegistryCredentials: [ // haalt credentials op van acr zodat dit niet manueel moet altijd
+      {
+        server: acr.properties.loginServer 
+        username: acr.properties.adminUserEnabled ? acr.listCredentials().username : ''
+        password: acr.properties.adminUserEnabled ? acr.listCredentials().passwords[0].value : ''
+      }
+    ]
+  }
+}
+
+resource containerGroup2 'Microsoft.ContainerInstance/containerGroups@2023-05-01' = if (!deployAcrOnly){
+  name: '${containerGroupName}${2}'
+  location: location
+  properties: {
+    containers: [
+      {
+        name: containerName
+        properties: {
+          image: containerImage
+          ports: [
+            {
+              protocol: 'TCP'
+              port: 80
+            }
+          ]
+          resources: {
+            requests: {
+              cpu: 1
+              memoryInGB: 1
+            }
+          }
+        }
+      }
+    ]
+    ipAddress: {
+      ports: [
+        {
+          protocol: 'TCP'
+          port: 80
+        }
+      ]
+      ip: '10.0.1.5'
+      type: 'Private'
+    }
     osType: 'Linux'
     subnetIds: [
       {
