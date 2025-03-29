@@ -117,7 +117,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2024-05-01' = if (!deploy
         }
       }
     ]
-    probes: [
+    probes: [ //health check
       {
         name: 'crudProbe'
         properties: {
